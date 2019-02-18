@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+        classpath("com.openhtmltopdf:openhtmltopdf-core:0.0.1-RC17")
+        classpath("com.openhtmltopdf:openhtmltopdf-pdfbox:0.0.1-RC17")
+        classpath("com.openhtmltopdf:openhtmltopdf-jsoup-dom-converter:0.0.1-RC17")
+        classpath("io.pebbletemplates:pebble:3.0.8")
+    }
+}
+
+plugins {
+    id 'checkstyle'
+}
+
+checkstyle {
+    toolVersion "8.11"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'checkstyle'
+
+bootJar {
+    baseName = 'htmltopdf'
+    version =  '0.1.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("com.openhtmltopdf:openhtmltopdf-core:0.0.1-RC17")
+    compile("com.openhtmltopdf:openhtmltopdf-pdfbox:0.0.1-RC17")
+    compile("com.openhtmltopdf:openhtmltopdf-jsoup-dom-converter:0.0.1-RC17")
+    compile("io.pebbletemplates:pebble:3.0.8")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("junit:junit")
+}
