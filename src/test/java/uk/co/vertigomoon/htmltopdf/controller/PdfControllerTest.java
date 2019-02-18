@@ -34,10 +34,10 @@ public class PdfControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(mapper.writeValueAsString(
                         new RenderTemplate("<html><body>{{var}}</body></html>",
-                                Collections.singletonMap("var", "replaced")))))
+                                Collections.singletonMap("var", "test")))))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().string(
-                            containsString("<html><body>replaced</body></html>")));
+                            containsString("<html><body>test</body></html>")));
     }
 
     @Test
