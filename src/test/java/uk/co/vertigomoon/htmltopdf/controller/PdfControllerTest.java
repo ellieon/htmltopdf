@@ -37,7 +37,7 @@ public class PdfControllerTest {
                                 Collections.singletonMap("var", "test")))))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().string(
-                            containsString("<html><body>tesaaa</body></html>")));
+                            containsString("<html><body>test</body></html>")));
     }
 
     @Test
