@@ -15,7 +15,7 @@ public class PdfService {
             Jsoup.parse(content);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             PdfRendererBuilder builder = new PdfRendererBuilder();
-            
+
             builder.withW3cDocument(html5ParseDocument(content), "");
             builder.toStream(outputStream);
             builder.run();
