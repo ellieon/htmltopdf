@@ -13,7 +13,10 @@ buildscript {
 
 plugins {
     id 'checkstyle'
+    id 'jacoco'
+    id "io.github.ddimtirov.codacy" version "0.1.0"
 }
+
 
 checkstyle {
     toolVersion "8.11"
