@@ -1,2 +1,5 @@
 server:
   port: 8090
+
+application:
+  github-redirect: ${SOURCE_HOME_URL}
