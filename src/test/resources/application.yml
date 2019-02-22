@@ -1,6 +1,8 @@
 server:
   port: 9090
 
+application:
+  github-redirect: "https://test.null.com"
 local:
   server:
     port: 9090
