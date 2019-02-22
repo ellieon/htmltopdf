@@ -1,6 +1,8 @@
 package uk.co.vertigomoon.htmltopdf.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,12 +25,13 @@ public class HomeControllerTest {
     @Value("${application.github-redirect}")
     private String redirectUrl;
 
-
     @Test
-    public void rootShouldRedirectToRepositoryHome() throws Exception {
-        webClient.perform(get("/"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl(redirectUrl));
+    public void rootShouldRedirectToRepositoryHome(){
+        assertThatCode(() ->
+            webClient.perform(get("/"))
+                    .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                    .andExpect(MockMvcResultMatchers.redirectedUrl(redirectUrl))
+        ).doesNotThrowAnyException();
     }
 
 }

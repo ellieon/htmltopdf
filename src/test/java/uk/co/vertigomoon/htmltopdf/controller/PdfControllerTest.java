@@ -1,10 +1,13 @@
 package uk.co.vertigomoon.htmltopdf.controller;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Collections;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,61 +32,73 @@ public class PdfControllerTest {
     private ObjectMapper mapper;
 
     @Test
-    public void createHtmlFromTemplateGeneratesHtmlFromPebble() throws Exception {
-        webClient.perform(post("/create-html-from-template")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mapper.writeValueAsString(
-                        new RenderTemplate("<html><body>{{var}}</body></html>",
-                                Collections.singletonMap("var", "test")))))
-                    .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.content().string(
-                            containsString("<html><body>test</body></html>")));
+    public void createHtmlFromTemplateGeneratesHtmlFromPebble() {
+        assertThatCode(() ->
+                webClient.perform(post("/create-html-from-template")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(mapper.writeValueAsString(
+                                new RenderTemplate("<html><body>{{var}}</body></html>",
+                                        Collections.singletonMap("var", "test")))))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().string(
+                                containsString("<html><body>test</body></html>")))
+        ).doesNotThrowAnyException();
     }
 
     @Test
-    public void createHtmlFromTemplateShouldReturn422StatusCodeWhenGivenBadInput() throws Exception {
-        webClient.perform(post("/create-html-from-template")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mapper.writeValueAsString(
-                        new RenderTemplate("<html><body>{{var}</bol>",
-                                Collections.singletonMap("var", "replaced")))))
-                    .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    public void createHtmlFromTemplateShouldReturn422StatusCodeWhenGivenBadInput() {
+        assertThatCode(() ->
+                webClient.perform(post("/create-html-from-template")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(mapper.writeValueAsString(
+                                new RenderTemplate("<html><body>{{var}</bol>",
+                                        Collections.singletonMap("var", "replaced")))))
+                        .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+        ).doesNotThrowAnyException();
     }
 
     @Test
-    public void createPdfFromHtmlReturnsPdfDocumentWhenGivenValidInput() throws Exception {
-        webClient.perform(post("/create-from-html")
-            .content("<html><body>hello</body></html>"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_PDF_VALUE));
+    public void createPdfFromHtmlReturnsPdfDocumentWhenGivenValidInput() {
+        assertThatCode(() ->
+                webClient.perform(post("/create-from-html")
+                        .content("<html><body>hello</body></html>"))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_PDF_VALUE))
+        ).doesNotThrowAnyException();
     }
 
     @Test
-    public void createPdfFromHtmlShouldReturn422StatusCodeWhenGivenBadInput() throws Exception {
-        webClient.perform(post("/create-from-html")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content("<vkld;nvk;ldfa><vnkdfl;as>"))
-                    .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    public void createPdfFromHtmlShouldReturn422StatusCodeWhenGivenBadInput() {
+        assertThatCode(() ->
+                webClient.perform(post("/create-from-html")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content("<vkld;nvk;ldfa><vnkdfl;as>"))
+                        .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+        ).doesNotThrowAnyException();
     }
 
     @Test
-    public void createPdfFromTemplate() throws Exception {
-        webClient.perform(post("/create-from-template")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mapper.writeValueAsString(
-                        new RenderTemplate("<html><body>{{var}}</body></html>",
-                                Collections.singletonMap("var", "replaced")))))
-                    .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_PDF_VALUE));
+    public void createPdfFromTemplate() {
+        assertThatCode(() ->
+                webClient.perform(post("/create-from-template")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(mapper.writeValueAsString(
+                                new RenderTemplate("<html><body>{{var}}</body></html>",
+                                        Collections.singletonMap("var", "replaced")))))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_PDF_VALUE))
+        ).doesNotThrowAnyException();
     }
 
     @Test
-    public void createPdfFromTemplateShouldReturn422StatusCodeWhenGivenBadInput() throws Exception {
-        webClient.perform(post("/create-from-template")
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(mapper.writeValueAsString(new RenderTemplate("<mvl;d'f>",
-                        Collections.singletonMap("val", "replaced")))))
-                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    public void createPdfFromTemplateShouldReturn422StatusCodeWhenGivenBadInput() {
+        assertThatCode(() ->
+                webClient.perform(post("/create-from-template")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(mapper.writeValueAsString(new RenderTemplate("<mvl;d'f>",
+                                Collections.singletonMap("val", "replaced")))))
+                        .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+        ).doesNotThrowAnyException();
     }
 
 }
