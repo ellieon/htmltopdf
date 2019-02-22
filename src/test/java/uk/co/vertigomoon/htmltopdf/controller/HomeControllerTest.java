@@ -26,7 +26,7 @@ public class HomeControllerTest {
     private String redirectUrl;
 
     @Test
-    public void rootShouldRedirectToRepositoryHome(){
+    public void rootShouldRedirectToRepositoryHome() {
         assertThatCode(() ->
             webClient.perform(get("/"))
                     .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
